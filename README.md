@@ -52,7 +52,7 @@ I'm a developer with a strong background in enterprise Java development, now exp
 
 ## 📊 My Stats
 
-[![Bissbert's GitHub stats](https://github-readme-stats.vercel.app/api?username=Bissbert&show_icons=true&theme=radical)](https://github.com/Bissbert)  
+[![Bissbert's GitHub stats](https://github-readme-stats.vercel.app/api?username=Bissbert&show_icons=true&hide=score&theme=radical)](https://github.com/Bissbert)  
 [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=Bissbert&layout=compact&theme=radical)](https://github.com/Bissbert)
 
 ---
