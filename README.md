@@ -42,24 +42,17 @@ I'm a developer with a strong background in enterprise Java development, now exp
   A tool to detect fake data, leveraging advanced Java principles.
 
 - [**FondueCatcher**](https://github.com/Bissbert/FondueCatcher)  
-  A game where players catch fondue bread with a pan, built using React Native.  
+  A game where players catch fondue bread with a pan, built using React Native.
 
-### 🔧 **Utilities & Libraries**
-- [**fabric-chunkpregenerator**](https://github.com/Bissbert/fabric-chunkpregenerator)  
-  A forked chunk pre-generator for Fabric modding in Minecraft.  
-
+### 🔧 **Utilities & Libraries** 
 - [**SwissToWGS4j**](https://github.com/Bissbert/SwissToWGS4j)  
-  A Java library for converting Swiss coordinates to WGS84 and vice versa.  
-
-- [**GemDiagramAI**](https://github.com/Bissbert/GemDiagramAI)  
-  AI-based tool for analysing gem structures and creating mineral diagrams.  
+  A Java library for converting Swiss coordinates to WGS84 and vice versa.   
 
 ---
 
 ## 📊 My Stats
 
 [![Bissbert's GitHub stats](https://github-readme-stats.vercel.app/api?username=Bissbert&show_icons=true&theme=radical)](https://github.com/Bissbert)  
-[![GitHub Streak](https://github-readme-streak-stats.herokuapp.com?user=Bissbert&theme=highcontrast)](https://github.com/Bissbert)  
 [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=Bissbert&layout=compact&theme=radical)](https://github.com/Bissbert)
 
 ---
@@ -70,7 +63,7 @@ I'm a developer with a strong background in enterprise Java development, now exp
   Ducks are amazing creatures—they can swim, fly, and waddle!  
 
 - **My Favourite Mineral Group**: Titanium Minerals 🪨✨
-  ![Titanite](https://i0.wp.com/geologyscience.com/wp-content/uploads/2024/02/Titanite-jpg.webp?fit=1280%2C1280&ssl=1)
+  ![Titanite](https://i0.wp.com/geologyscience.com/wp-content/uploads/2024/02/Titanite-jpg.webp?fit=640%2C640&ssl=1)
 
 ---
 
