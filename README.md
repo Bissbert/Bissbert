@@ -58,7 +58,7 @@ I'm a developer with a strong background in enterprise Java development, now exp
 ---
 
 ## 🦆 Just for Fun
-- **Random Duck Facts**:  
+- **Random Duck Image :D**:  
   ![Duck Image](https://random-d.uk/api/v2/randomimg)  
   Ducks are amazing creatures—they can swim, fly, and waddle!  
 
