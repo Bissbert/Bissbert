@@ -1,77 +1,50 @@
-# Hi there, I'm Bissbert! 🦆
+# Hi, I'm Bissbert 🦆
 
-Welcome to my GitHub profile!  
-I'm a developer with a strong background in enterprise Java development, now exploring the fascinating world of AI. Alongside my professional journey, I've also been part of exciting hackathons like **SwissHacks** and **SwissSkills**, honing my skills in high-pressure, innovative environments.
-
----
-
-## 🌟 About Me
-- **Languages & Tools**:  
-  ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
-  ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-  ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
-  ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)  
-  ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
-  ![Bash](https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnu-bash&logoColor=white)
-
-- **Experience**:  
-  - Enterprise Java development in the finance sector 💳  
-  - AI projects, including a Retrieval-Augmented Generation (RAG) application for managing cookbooks and recipes 🤖📚  
-  - Hackathons: Participated in **SwissHacks** and **SwissSkills**, building creative solutions under time constraints 🚀  
-  - Working with various Linux distributions 🐧  
-  - Exploring high-security systems 🔒  
-
-- **Hobbies & Interests**:  
-  - Ducks 🦆  
-  - Minerals and geology 🪨  
+Cybersecurity engineer safeguarding critical electricity infrastructure • OT network visibility • Automation-minded from enterprise Java & AI roots.
 
 ---
 
-## 🛠️ Featured Projects
+## 🛡️ Shielding Critical Infrastructure
+- Investigating vulnerabilities across substations and control centers without impacting live operations
+- Mapping OT network and asset inventories to surface blind spots in legacy field devices
+- Coordinating with operations teams to balance uptime, safety, and security compliance
 
-### 🌐 **AI & Machine Learning**
-- [**cookingRAG**](https://github.com/Bissbert/cookingRAG)  
-  An intelligent Retrieval-Augmented Generation (RAG) app for managing cookbooks and recipes.
+## ⚡ Security Highlights
+- 2025 · Automated asset discovery pipelines combining passive listening with CMDB enrichment
+- 2025 · Automated data collection pipelines for Hirschmann devices combining configuration change detection with documentation enrichment
+- Hackathons · SwissHacks & SwissSkills alumni applying rapid prototyping discipline to IR tooling
 
-- [**filterlesscook**](https://github.com/Bissbert/filterlesscook)  
-  A Python-based tool to optimise and manage recipes programmatically.
+## 🧰 Security & OT Toolkit
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Bash](https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnu-bash&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Wireshark](https://img.shields.io/badge/Wireshark-1679A7?style=for-the-badge&logo=wireshark&logoColor=white)
+![Grafana](https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
-### 🎮 **Hackathon Projects**
-- [**FakeSniffer**](https://github.com/Bissbert/FakeSniffer)  
-  *Hackathon project @ SwissHacks*  
-  A tool to detect fake data, leveraging advanced Java principles.
+> Also hands-on with physical installations.
 
-- [**FondueCatcher**](https://github.com/Bissbert/FondueCatcher)  
-  A game where players catch fondue bread with a pan, built using React Native.
+## 🤖 Bridging Enterprise Java & AI
+I still lean on my enterprise Java background to build resilient services and data pipelines, while AI projects like `cookingRAG` inform anomaly triage and knowledge tooling. Modern security demands trustworthy software delivery, so I keep the JVM muscle and AI experimentation sharp alongside field work.
 
-### 🔧 **Utilities & Libraries** 
-- [**SwissToWGS4j**](https://github.com/Bissbert/SwissToWGS4j)  
-  A Java library for converting Swiss coordinates to WGS84 and vice versa.   
+## 📚 Learning & Community
+- Continuous OT lab research (protocol fuzzing, segmented test beds, detection-as-code experiments)
+- Collaboration with multi-disciplinary ops teams to rehearse incident response drills
+- Public talks & posts pending - reach out if you’re aligning cybersecurity with mission-critical infrastructure
 
----
-
-## 📊 My Stats
-
-[![Bissbert's GitHub stats](https://github-readme-stats.vercel.app/api?username=Bissbert&show_icons=true&hide_rank=true&theme=radical)](https://github.com/Bissbert)  
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=Bissbert&layout=compact&theme=radical)](https://github.com/Bissbert)
-
----
-
-## 🦆 Just for Fun
-- **Random Duck Image :D**:  
-  ![Duck Image](https://random-d.uk/api/v2/randomimg)  
-  Ducks are amazing creatures—they can swim, fly, and waddle!  
-
-- **My Favourite Mineral Group**: Titanium Minerals 🪨✨
-  ![Titanite](https://i0.wp.com/geologyscience.com/wp-content/uploads/2024/02/Titanite-jpg.webp?fit=640%2C640&ssl=1)
+## 📊 GitHub Activity
+<div align="center">
+  <a href="https://github.com/Bissbert"><img src="https://github-readme-stats.vercel.app/api?username=Bissbert&show_icons=true&hide_rank=true&theme=radical" alt="Bissbert's GitHub stats" /></a>
+  <a href="https://github.com/Bissbert"><img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Bissbert&layout=compact&theme=radical" alt="Top languages chart" /></a>
+</div>
 
 ---
 
-## 🌐 Connect with Me
-- [LinkedIn](https://www.linkedin.com/in/fabian-moor-2930001b6/) 
-- [Twitter](https://twitter.com/bissbert)  
-- [My Jewelery Shop](https://jewlarray.ch)
-
----
+## 🌐 Connect
+- [LinkedIn](https://www.linkedin.com/in/fabian-moor-2930001b6/)
+- [Twitter](https://twitter.com/bissbert)
+- [My Jewelry Shop](https://jewlarray.ch)
 
 ![Visitor Count](https://visitor-badge.laobi.icu/badge?page_id=Bissbert.Bissbert)
