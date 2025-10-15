@@ -30,7 +30,7 @@ Cybersecurity engineer safeguarding critical electricity infrastructure • OT n
 I still lean on my enterprise Java background to build resilient services and data pipelines, while AI projects like `cookingRAG` inform anomaly triage and knowledge tooling. Modern security demands trustworthy software delivery, so I keep the JVM muscle and AI experimentation sharp alongside field work.
 
 ## 📚 Learning & Community
-- Continuous OT lab research (protocol fuzzing, segmented test beds, detection-as-code experiments)
+- Continuous OT lab research (protocol fuzzing, detection-as-code experiments)
 - Collaboration with multi-disciplinary ops teams to rehearse incident response drills
 - Public talks & posts pending - reach out if you’re aligning cybersecurity with mission-critical infrastructure
 
