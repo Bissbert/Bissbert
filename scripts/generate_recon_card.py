@@ -11,7 +11,7 @@ try:
 except ImportError:
     HAS_REQUESTS = False
 
-HOSTS = ["bissbert.ch", "bisshub.ch"]
+HOSTS = ["bissbert.ch", "bisshub.ch", "gemmology.dev"]
 
 BG = "#0d1117"
 FG = "#e6edf3"
