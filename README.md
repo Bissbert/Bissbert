@@ -1,50 +1,55 @@
-# Hi, I'm Bissbert 🦆
-
-Cybersecurity engineer safeguarding critical electricity infrastructure • OT network visibility • Automation-minded from enterprise Java & AI roots.
-
----
-
-## 🛡️ Shielding Critical Infrastructure
-- Investigating vulnerabilities across substations and control centers without impacting live operations
-- Mapping OT network and asset inventories to surface blind spots in legacy field devices
-- Coordinating with operations teams to balance uptime, safety, and security compliance
-
-## ⚡ Security Highlights
-- 2025 · Automated asset discovery pipelines combining passive listening with CMDB enrichment
-- 2025 · Automated data collection pipelines for Hirschmann devices combining configuration change detection with documentation enrichment
-- Hackathons · SwissHacks & SwissSkills alumni applying rapid prototyping discipline to IR tooling
-
-## 🧰 Security & OT Toolkit
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![Bash](https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnu-bash&logoColor=white)
-![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
-![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
-![Wireshark](https://img.shields.io/badge/Wireshark-1679A7?style=for-the-badge&logo=wireshark&logoColor=white)
-![Grafana](https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-
-> Also hands-on with physical installations.
-
-## 🤖 Bridging Enterprise Java & AI
-I still lean on my enterprise Java background to build resilient services and data pipelines, while AI projects like `cookingRAG` inform anomaly triage and knowledge tooling. Modern security demands trustworthy software delivery, so I keep the JVM muscle and AI experimentation sharp alongside field work.
-
-## 📚 Learning & Community
-- Continuous OT lab research (protocol fuzzing, detection-as-code experiments)
-- Collaboration with multi-disciplinary ops teams to rehearse incident response drills
-- Public talks & posts pending - reach out if you’re aligning cybersecurity with mission-critical infrastructure
-
-## 📊 GitHub Activity
 <div align="center">
-  <a href="https://github.com/Bissbert"><img src="https://github-readme-stats.vercel.app/api?username=Bissbert&show_icons=true&hide_rank=true&theme=radical" alt="Bissbert's GitHub stats" /></a>
-  <a href="https://github.com/Bissbert"><img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Bissbert&layout=compact&theme=radical" alt="Top languages chart" /></a>
+
+<img src="https://capsule-render.vercel.app/api?type=wave&color=0:0d1117,100:3fb950&height=180&section=header&text=Bissbert&fontColor=e6edf3&fontSize=64&animation=fadeIn" />
+
+<a href="https://github.com/Bissbert"><img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=20&duration=3000&pause=900&color=3FB950&center=true&vCenter=true&width=620&lines=OT+%2F+systems+security+engineer.;Shell-native+tooling+for+production.;Computational+geometry+on+the+side." /></a>
+
 </div>
 
 ---
 
-## 🌐 Connect
-- [LinkedIn](https://www.linkedin.com/in/fabian-moor-2930001b6/)
-- [Twitter](https://twitter.com/bissbert)
-- [My Jewelry Shop](https://jewlarray.ch)
+## Currently
 
-![Visitor Count](https://visitor-badge.laobi.icu/badge?page_id=Bissbert.Bissbert)
+Cybersecurity engineer on critical electricity infrastructure — OT network visibility, asset discovery, detection-as-code. Based in Switzerland.
+
+## Selected work
+
+**Security & systems**
+- **[POSIX-hardening](https://github.com/Bissbert/POSIX-hardening)** — 21-script Debian hardening toolkit with auto-rollback and SSH lockout prevention.
+- **[posix-ids](https://github.com/Bissbert/posix-ids)** — zero-dep Linux IDS that pipes alerts into Splunk.
+- **[splunk-security-alerts](https://github.com/Bissbert/splunk-security-alerts)** — detection-as-code framework for production Splunk environments.
+- **[zbx-cli](https://github.com/Bissbert/zbx-cli)** — pure-shell Zabbix client for locked-down hosts.
+- **[topdesk-cli](https://github.com/Bissbert/topdesk-cli)** — shell client for Topdesk ITSM automation.
+- **[toolbox.sh](https://github.com/Bissbert/toolbox.sh)** — POSIX-shell framework for Git-style CLIs, JSON-driven scaffolding.
+
+**Beyond work**
+- **[minecraft-litematica](https://github.com/Bissbert/minecraft-litematica)** — SDF math meets Minecraft: composable 3D primitives + boolean ops generating Litematica schematics.
+- **[obsidianMathsExecutor](https://github.com/Bissbert/obsidianMathsExecutor)** — Obsidian plugin that executes prepared LaTeX maths inside your vault.
+- **[jewlarray.ch](https://jewlarray.ch)** — gemmology bench: faceting, identification, retail.
+
+## Daily recon
+
+Nightly Shodan-InternetDB sweep of my own domains, rendered as a static SVG. No external dashboard, no third-party hosting — generated by a GitHub Action and committed back.
+
+<p align="center"><img src="assets/recon.svg" alt="Daily recon card for bissbert.ch and bisshub.ch" /></p>
+
+## Stack
+
+<p>
+  <img src="https://skillicons.dev/icons?i=bash,python,rust,ts,java,docker,linux,grafana&theme=dark" alt="Stack icons" />
+</p>
+
+## Activity
+
+<p align="center">
+  <img src="images/userstats.svg" alt="Profile statistics" />
+</p>
+<p align="center">
+  <img src="assets/snake.svg" alt="Contribution snake" />
+</p>
+
+## Elsewhere
+
+- [LinkedIn](https://www.linkedin.com/in/fabian-moor-2930001b6/)
+- [bissbert.ch](https://bissbert.ch) — write-ups (intermittent)
+- [jewlarray.ch](https://jewlarray.ch) — gemmology shop

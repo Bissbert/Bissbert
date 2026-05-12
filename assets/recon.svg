@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="256" viewBox="0 0 720 256">
+  <rect width="720" height="256" rx="10" fill="#0d1117"/>
+  <rect width="720" height="256" rx="10" fill="none" stroke="#484f58" stroke-width="1"/>
+  <style>text { font-family: 'JetBrains Mono', 'SF Mono', 'Cascadia Mono', Menlo, monospace; }</style>
+  <text x="24" y="44" font-size="13" fill="#3fb950" font-weight="bold">┌─ DAILY RECON · 2026-05-12 UTC ─┐</text>
+  <text x="40" y="100" font-size="13" fill="#3fb950">▸ bissbert.ch</text>
+  <text x="56" y="120" font-size="12" fill="#e6edf3">→  104.21.5.187   ports: 80, 443, 2052, 2053, 2082, 2083, 2086, 2087, 2095…</text>
+  <text x="56" y="136" font-size="12" fill="#e6edf3">vulns: <tspan fill="#e6edf3">0</tspan>   tags: cdn</text>
+  <line x1="24" y1="148" x2="696" y2="148" stroke="#484f58" stroke-width="0.5"/>
+  <text x="40" y="152" font-size="13" fill="#3fb950">▸ bisshub.ch</text>
+  <text x="56" y="172" font-size="12" fill="#e6edf3">→  172.67.188.108   ports: 80, 443, 2052, 2053, 2082, 2083, 2086, 2087, 2095…</text>
+  <text x="56" y="188" font-size="12" fill="#e6edf3">vulns: <tspan fill="#e6edf3">0</tspan>   tags: cdn</text>
+  <line x1="24" y1="200" x2="696" y2="200" stroke="#484f58" stroke-width="0.5"/>
+  <text x="24" y="224" font-size="11" fill="#484f58">└─ source: internetdb.shodan.io · auto-updated daily ─┘</text>
+</svg>

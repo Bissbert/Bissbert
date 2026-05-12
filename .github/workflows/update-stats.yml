@@ -1,0 +1,24 @@
+name: Update Stats
+
+on:
+  schedule:
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate stats SVG
+        uses: cicirello/user-statistician@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          colors: dark
+          fail-on-error: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
