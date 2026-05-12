@@ -45,7 +45,7 @@ Nightly Shodan-InternetDB sweep of my own domains, rendered as a static SVG. No 
   <img src="images/userstats.svg" alt="Profile statistics" />
 </p>
 <p align="center">
-  <img src="assets/snake.svg" alt="Contribution snake" />
+  <img src="assets/activity.svg" alt="Contribution activity (in-bounds snake scan)" />
 </p>
 
 ## Elsewhere
