@@ -1,30 +1,33 @@
 #!/usr/bin/env python3
-"""Generate assets/activity.svg — a snake that strictly stays inside the 7-row
-contribution grid (no off-grid travel lane). Fetches contribution counts via
-GitHub GraphQL; falls back to deterministic synthetic data if no token."""
+"""Generate assets/activity.svg — a real snake AI that eats every cell in the
+contribution grid. Fetches counts via GitHub GraphQL; falls back to deterministic
+synthetic data if no token is set."""
+
+from __future__ import annotations
 
 import json
 import os
+import sys
 import urllib.request
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from activity.simulator import simulate
+from activity.svg_render import render
 
 USER = os.environ.get("GH_USER", "Bissbert")
 TOKEN = os.environ.get("GITHUB_TOKEN", "")
 
-CELL = 12
-STRIDE = 16
 COLS = 53
 ROWS = 7
-WIDTH = 848
-HEIGHT = 112
-
-STEP_MS = 70
-HOLD_MS = 1400
+BODY_CAP = 20
 
 PALETTE_DARK = ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"]
 PALETTE_LIGHT = ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"]
 
-HEAD_COLOR = "#a78bfa"
-BODY_COLOR = "#7c3aed"
+SNAKE_DARK = ("#a78bfa", "#7c3aed")
+SNAKE_LIGHT = ("#7c3aed", "#5b21b6")
 
 QUERY = "query($u:String!){user(login:$u){contributionsCollection{contributionCalendar{weeks{contributionDays{contributionCount weekday}}}}}}"
 
@@ -32,6 +35,7 @@ QUERY = "query($u:String!){user(login:$u){contributionsCollection{contributionCa
 def fetch_grid() -> list[list[int]]:
     if not TOKEN:
         import random
+
         random.seed(42)
         return [
             [random.choices([0, 1, 2, 3, 4], weights=[5, 3, 2, 1, 1])[0] for _ in range(ROWS)]
@@ -61,95 +65,42 @@ def intensity(c: int) -> int:
     return 4
 
 
-def boustrophedon() -> list[tuple[int, int]]:
-    path = []
-    for col in range(COLS):
-        rs = range(ROWS) if col % 2 == 0 else range(ROWS - 1, -1, -1)
-        for row in rs:
-            path.append((col, row))
-    return path
+def pick_start(filled: set[tuple[int, int]]) -> tuple[int, int]:
+    for c in range(COLS):
+        for r in range(ROWS):
+            if (c, r) not in filled:
+                return (c, r)
+    return (0, 0)
 
 
-def cellpos(col: int, row: int) -> tuple[int, int]:
-    return 2 + col * STRIDE, 2 + row * STRIDE
+def build(counts: list[list[int]], palette: list[str], snake: tuple[str, str]) -> str:
+    intensity_grid = [[intensity(counts[c][r]) for r in range(ROWS)] for c in range(COLS)]
+    filled = {(c, r) for c in range(COLS) for r in range(ROWS) if intensity_grid[c][r] > 0}
 
+    if not filled:
+        from activity.simulator import SimResult, TickEvent
 
-def build(grid: list[list[int]], palette: list[str]) -> str:
-    path = boustrophedon()
-    N = len(path)
-    total_ms = N * STEP_MS + HOLD_MS
-    hold_frac = HOLD_MS / total_ms
+        result = SimResult(events=[TickEvent(0, (0, 0), [(0, 0)], None, 0)], total_ticks=0)
+    else:
+        start = pick_start(filled)
+        result = simulate(COLS, ROWS, filled, start=start, max_body_length=BODY_CAP)
 
-    times = [i * (1 - hold_frac) / N for i in range(N)]
-    times.append(1.0)
-    key_times = ";".join(f"{t:.5f}" for t in times)
-
-    parts = [
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" '
-        f'viewBox="0 0 {WIDTH} {HEIGHT}" role="img" '
-        f'aria-label="Annual GitHub contribution grid scanned in-bounds by a snake.">'
-    ]
-
-    parts.append('<g shape-rendering="geometricPrecision">')
-    for col in range(COLS):
-        for row in range(ROWS):
-            x, y = cellpos(col, row)
-            fill = palette[intensity(grid[col][row])]
-            parts.append(f'<rect x="{x}" y="{y}" width="{CELL}" height="{CELL}" rx="2" ry="2" fill="{fill}"/>')
-    parts.append('</g>')
-
-    for seg in range(5):
-        size = CELL - seg * 0.8
-        off = (CELL - size) / 2
-        opacity = 1.0 - seg * 0.18
-        color = HEAD_COLOR if seg == 0 else BODY_COLOR
-
-        xs, ys, opacs = [], [], []
-        for i in range(N):
-            j = i - seg
-            if j < 0:
-                x, y = cellpos(*path[0])
-                xs.append(x + off)
-                ys.append(y + off)
-                opacs.append(0.0)
-            else:
-                x, y = cellpos(*path[j])
-                xs.append(x + off)
-                ys.append(y + off)
-                opacs.append(opacity)
-        xs.append(xs[-1])
-        ys.append(ys[-1])
-        opacs.append(opacs[-1])
-
-        vx = ";".join(f"{v:.2f}" for v in xs)
-        vy = ";".join(f"{v:.2f}" for v in ys)
-        vo = ";".join(f"{v:.2f}" for v in opacs)
-
-        parts.append(
-            f'<rect width="{size:.2f}" height="{size:.2f}" rx="3" ry="3" fill="{color}" opacity="0">'
-            f'<animate attributeName="x" values="{vx}" keyTimes="{key_times}" '
-            f'dur="{total_ms}ms" repeatCount="indefinite" calcMode="discrete"/>'
-            f'<animate attributeName="y" values="{vy}" keyTimes="{key_times}" '
-            f'dur="{total_ms}ms" repeatCount="indefinite" calcMode="discrete"/>'
-            f'<animate attributeName="opacity" values="{vo}" keyTimes="{key_times}" '
-            f'dur="{total_ms}ms" repeatCount="indefinite" calcMode="discrete"/>'
-            f'</rect>'
-        )
-
-    parts.append('</svg>')
-    return "".join(parts)
+    head, body = snake
+    return render(COLS, ROWS, intensity_grid, result, palette, head_color=head, body_color=body)
 
 
 def main() -> None:
-    grid = fetch_grid()
-    out_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets")
-    os.makedirs(out_dir, exist_ok=True)
+    counts = fetch_grid()
+    out_dir = Path(__file__).resolve().parent.parent / "assets"
+    out_dir.mkdir(parents=True, exist_ok=True)
 
-    for variant, palette in [("", PALETTE_DARK), ("-light", PALETTE_LIGHT)]:
-        svg = build(grid, palette)
-        out = os.path.join(out_dir, f"activity{variant}.svg")
-        with open(out, "w", encoding="utf-8") as f:
-            f.write(svg)
+    for suffix, palette, snake in [
+        ("", PALETTE_DARK, SNAKE_DARK),
+        ("-light", PALETTE_LIGHT, SNAKE_LIGHT),
+    ]:
+        svg = build(counts, palette, snake)
+        out = out_dir / f"activity{suffix}.svg"
+        out.write_text(svg, encoding="utf-8")
         print(f"Written: {out} ({len(svg)} bytes)")
 
 
