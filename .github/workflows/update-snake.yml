@@ -22,6 +22,16 @@ jobs:
             assets/snake.svg
             assets/snake-dark.svg?palette=github-dark
 
+      - name: Tighten viewBox to grid bounds
+        # Default snk output is viewBox="-16 -32 880 192" with ~34px of empty
+        # canvas above the grid (and ~50px below) where the snake roams visibly.
+        # Crop to the contribution grid (848x112) so the snake enters/exits
+        # off-screen instead of wandering in empty rows.
+        run: |
+          for f in assets/snake.svg assets/snake-dark.svg; do
+            sed -i -E 's|<svg viewBox="[^"]+" width="[^"]+" height="[^"]+"|<svg viewBox="0 0 848 112" width="848" height="112" preserveAspectRatio="xMidYMid meet"|' "$f"
+          done
+
       - name: Commit snake SVGs
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
