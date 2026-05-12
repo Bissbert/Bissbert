@@ -17,8 +17,11 @@ jobs:
       - name: Generate stats SVG
         uses: cicirello/user-statistician@v1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           colors: dark
           fail-on-error: false
+          image-width: 720
+          border-radius: 10
+          small-title: true
+          max-languages: 6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

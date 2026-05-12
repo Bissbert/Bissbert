@@ -2,7 +2,7 @@
 
 <img src="https://capsule-render.vercel.app/api?type=wave&color=0:0d1117,100:3fb950&height=180&section=header&text=Bissbert&fontColor=e6edf3&fontSize=64&animation=fadeIn" />
 
-<a href="https://github.com/Bissbert"><img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=20&duration=3000&pause=900&color=3FB950&center=true&vCenter=true&width=620&lines=OT+%2F+systems+security+engineer.;Shell-native+tooling+for+production.;Computational+geometry+on+the+side." /></a>
+<a href="https://github.com/Bissbert"><img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=20&duration=3000&pause=900&color=3FB950&center=true&vCenter=true&width=720&lines=OT+%2F+systems+security+engineer.;Shell-native+tooling+for+production.;Computational+geometry+on+the+side." /></a>
 
 </div>
 
@@ -35,8 +35,8 @@ Nightly Shodan-InternetDB sweep of my own domains, rendered as a static SVG. No 
 
 ## Stack
 
-<p>
-  <img src="https://skillicons.dev/icons?i=bash,python,rust,ts,java,docker,linux,grafana&theme=dark" alt="Stack icons" />
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=bash,python,rust,ts,java,docker,linux,grafana&theme=dark&perline=8" alt="Stack icons" />
 </p>
 
 ## Activity
