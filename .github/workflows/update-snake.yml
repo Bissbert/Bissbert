@@ -27,3 +27,4 @@ jobs:
         with:
           commit_message: 'chore: daily snake'
           file_pattern: 'assets/snake.svg assets/snake-dark.svg'
+          push_options: '--force-with-lease'
