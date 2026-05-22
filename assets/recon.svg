@@ -3,20 +3,20 @@
   <rect width="720" height="206" rx="10" fill="url(#bg)"/>
   <rect x="0.5" y="0.5" width="719" height="205" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
   <style>text { font-family: 'JetBrains Mono', 'SF Mono', 'Cascadia Mono', Menlo, monospace; } .dim { fill: #8b949e; }</style>
-  <text x="24" y="38" font-size="13" fill="#3fb950" font-weight="bold" xml:space="preserve">┌─ DAILY RECON · 2026-05-21 UTC ────────────────────────────────┐</text>
+  <text x="24" y="38" font-size="13" fill="#3fb950" font-weight="bold" xml:space="preserve">┌─ DAILY RECON · 2026-05-22 UTC ────────────────────────────────┐</text>
   <circle cx="30" cy="73" r="4" fill="#3fb950"/>
   <text x="44" y="78" font-size="13" fill="#e6edf3" font-weight="600">bissbert.ch</text>
-  <text x="186" y="78" font-size="12" class="dim">104.21.5.187</text>
+  <text x="186" y="78" font-size="12" class="dim">172.67.133.186</text>
   <text x="346" y="78" font-size="12" fill="#e6edf3">cdn-fronted · 13 public ports · 0 vulns</text>
   <line x1="24" y1="92" x2="696" y2="92" stroke="#30363d" stroke-width="0.5" stroke-dasharray="2,3"/>
   <circle cx="30" cy="111" r="4" fill="#3fb950"/>
   <text x="44" y="116" font-size="13" fill="#e6edf3" font-weight="600">bisshub.ch</text>
-  <text x="186" y="116" font-size="12" class="dim">104.21.33.8</text>
+  <text x="186" y="116" font-size="12" class="dim">172.67.188.108</text>
   <text x="346" y="116" font-size="12" fill="#e6edf3">cdn-fronted · 13 public ports · 0 vulns · 1 altname</text>
   <line x1="24" y1="130" x2="696" y2="130" stroke="#30363d" stroke-width="0.5" stroke-dasharray="2,3"/>
   <circle cx="30" cy="149" r="4" fill="#3fb950"/>
   <text x="44" y="154" font-size="13" fill="#e6edf3" font-weight="600">gemmology.dev</text>
-  <text x="186" y="154" font-size="12" class="dim">104.21.9.244</text>
+  <text x="186" y="154" font-size="12" class="dim">172.67.161.200</text>
   <text x="346" y="154" font-size="12" fill="#e6edf3">cdn-fronted · 13 public ports · 0 vulns · 1 altname</text>
   <text x="24" y="186" font-size="11" class="dim" xml:space="preserve">└─ source: internetdb.shodan.io · auto-updated daily ───────────┘</text>
 </svg>
