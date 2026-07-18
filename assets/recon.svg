@@ -3,7 +3,7 @@
   <rect width="720" height="206" rx="10" fill="url(#bg)"/>
   <rect x="0.5" y="0.5" width="719" height="205" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
   <style>text { font-family: 'JetBrains Mono', 'SF Mono', 'Cascadia Mono', Menlo, monospace; } .dim { fill: #8b949e; }</style>
-  <text x="24" y="38" font-size="13" fill="#3fb950" font-weight="bold" xml:space="preserve">┌─ DAILY RECON · 2026-07-17 UTC ────────────────────────────────┐</text>
+  <text x="24" y="38" font-size="13" fill="#3fb950" font-weight="bold" xml:space="preserve">┌─ DAILY RECON · 2026-07-18 UTC ────────────────────────────────┐</text>
   <circle cx="30" cy="73" r="4" fill="#3fb950"/>
   <text x="44" y="78" font-size="13" fill="#e6edf3" font-weight="600">bissbert.ch</text>
   <text x="186" y="78" font-size="12" class="dim">104.21.5.187</text>
