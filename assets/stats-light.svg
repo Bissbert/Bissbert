@@ -20,7 +20,7 @@
   <text x="344" y="144" font-size="12" fill="#59636e" text-anchor="end">26%</text>
   <text x="360" y="144" font-size="12" fill="#1f2328">Python</text>
   <rect x="474" y="136" width="156" height="8" rx="4" fill="#eaeef2"/>
-  <rect x="474" y="136" width="150.6" height="8" rx="4" fill="#1a7f37"/>
+  <rect x="474" y="136" width="151.7" height="8" rx="4" fill="#1a7f37"/>
   <text x="680" y="144" font-size="12" fill="#59636e" text-anchor="end">25%</text>
   <text x="24" y="168" font-size="12" fill="#1f2328">JavaScript</text>
   <rect x="138" y="160" width="156" height="8" rx="4" fill="#eaeef2"/>
