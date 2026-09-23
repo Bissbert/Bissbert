@@ -12,6 +12,8 @@
 
 I work in cybersecurity for critical electricity infrastructure in Switzerland, mostly on OT network visibility, asset discovery and detection-as-code.
 
+I also run [MOOR security](https://moor-security.ch), a security consultancy in Zürich for Swiss companies and industrial operators. It does vulnerability assessments, security consulting, awareness training and incident response.
+
 ## Projects
 
 **Security and systems**
@@ -61,6 +63,7 @@ A GitHub Action checks my domains every night: days until the TLS certificate ex
 
 ## Elsewhere
 
+- [moor-security.ch](https://moor-security.ch): security consulting
 - [LinkedIn](https://www.linkedin.com/in/fabian-moor-2930001b6/)
 - [bissbert.ch](https://bissbert.ch): occasional write-ups
 - [jewlarray.ch](https://jewlarray.ch): gemstone shop
