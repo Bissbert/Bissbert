@@ -14,14 +14,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Generate stats SVG
-        uses: cicirello/user-statistician@v1
+      - uses: actions/setup-python@v5
         with:
-          colors: dark
-          fail-on-error: false
-          image-width: 720
-          border-radius: 10
-          small-title: true
-          max-languages: 6
+          python-version: '3.12'
+
+      - name: Generate stats SVGs
         env:
+          GH_USER: ${{ github.repository_owner }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/generate_stats_card.py
+
+      - name: Commit stats SVGs
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'chore: daily stats card'
+          file_pattern: 'assets/stats.svg assets/stats-light.svg'
+          commit_user_name: 'github-actions[bot]'
+          commit_user_email: '41898282+github-actions[bot]@users.noreply.github.com'
+          commit_author: 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>'

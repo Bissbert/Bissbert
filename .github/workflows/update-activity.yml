@@ -30,3 +30,6 @@ jobs:
           commit_message: 'chore: daily activity grid'
           file_pattern: 'assets/activity.svg assets/activity-light.svg'
           push_options: '--force-with-lease'
+          commit_user_name: 'github-actions[bot]'
+          commit_user_email: '41898282+github-actions[bot]@users.noreply.github.com'
+          commit_author: 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>'

@@ -22,11 +22,14 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      - name: Generate recon SVG
+      - name: Generate recon SVGs
         run: python3 scripts/generate_recon_card.py
 
-      - name: Commit recon SVG
+      - name: Commit recon SVGs
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: 'chore: daily recon'
-          file_pattern: assets/recon.svg
+          file_pattern: 'assets/recon.svg assets/recon-light.svg'
+          commit_user_name: 'github-actions[bot]'
+          commit_user_email: '41898282+github-actions[bot]@users.noreply.github.com'
+          commit_author: 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>'
