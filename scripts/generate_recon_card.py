@@ -1,197 +1,240 @@
 #!/usr/bin/env python3
-"""Daily recon card generator — writes assets/recon.svg from Shodan InternetDB data."""
+"""Daily recon card generator.
 
-import socket
+Writes assets/recon.svg (dark) and assets/recon-light.svg (light).
+
+Each domain is checked for things its owner controls:
+  - TLS certificate: days until expiry
+  - HSTS: present, and its max-age
+  - Security headers: how many of five are set
+  - Edge: whether the domain is served through a CDN. For CDN-fronted domains,
+    Shodan InternetDB describes the CDN's shared edge IP, not the origin, so
+    its port/vuln counts are only reported for directly exposed hosts.
+"""
+
+from __future__ import annotations
+
 import datetime
 import os
+import socket
+import ssl
+import urllib.error
+import urllib.request
 
 try:
     import requests
-    HAS_REQUESTS = True
 except ImportError:
-    HAS_REQUESTS = False
+    requests = None
 
 HOSTS = ["bissbert.ch", "bisshub.ch", "gemmology.dev"]
 
-BG = "#0d1117"
-FG = "#e6edf3"
-DIM_FG = "#8b949e"
-ACCENT = "#3fb950"
-RED = "#f85149"
-AMBER = "#d29922"
-DIM = "#30363d"
-GRID = "#161b22"
+THEMES = {
+    "": dict(bg="#0d1117", bg2="#161b22", fg="#e6edf3", dim="#8b949e", rule="#30363d",
+             ok="#3fb950", warn="#d29922", err="#f85149"),
+    "-light": dict(bg="#ffffff", bg2="#f6f8fa", fg="#1f2328", dim="#59636e", rule="#d1d9e0",
+                   ok="#1a7f37", warn="#9a6700", err="#cf222e"),
+}
 FONT = "'JetBrains Mono', 'SF Mono', 'Cascadia Mono', Menlo, monospace"
 
 WIDTH = 720
 PAD_X = 24
-TITLE_Y = 38
-ROW_BASE_Y = 78
-ROW_STRIDE = 38
-FOOTER_GAP = 28
+COL_HOST = 44
+COL_EDGE = 196
+COL_CHECKS = 330
+CHAR_W = 0.62  # monospace advance as a fraction of font-size, rounded up for fallback fonts
 
-# Cloudflare's public proxy port list — used to short-circuit noisy output
-CLOUDFLARE_PORTS = {80, 443, 2052, 2053, 2082, 2083, 2086, 2087, 2095, 2096, 8080, 8443, 8880}
+HSTS_MIN_DAYS = 180
+TLS_WARN_DAYS = 21
+TLS_ERR_DAYS = 7
+HEADERS = [
+    ("content-security-policy", "CSP"),
+    ("x-content-type-options", "nosniff"),
+    ("x-frame-options", "frame"),
+    ("referrer-policy", "referrer"),
+    ("permissions-policy", "permissions"),
+]
+CDN_SERVERS = ("cloudflare", "akamai", "fastly", "cloudfront")
 
 
 def esc(s: str) -> str:
     return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
 
 
-def fetch_host(host: str) -> dict:
-    result = {"host": host, "ip": None, "ports": [], "vulns": [], "hostnames": [], "tags": [], "cpes": [], "status": "ok"}
+def fit(text: str, x: int, size: int) -> str:
+    """Truncate text so it cannot run past the card's right padding."""
+    max_chars = int((WIDTH - PAD_X - x) / (size * CHAR_W))
+    return text if len(text) <= max_chars else text[: max_chars - 1] + "…"
+
+
+def tls_days(host: str) -> int:
+    ctx = ssl.create_default_context()
+    with socket.create_connection((host, 443), timeout=10) as sock:
+        with ctx.wrap_socket(sock, server_hostname=host) as tls:
+            not_after = tls.getpeercert()["notAfter"]
+    expires = datetime.datetime.fromtimestamp(ssl.cert_time_to_seconds(not_after), datetime.timezone.utc)
+    return (expires - datetime.datetime.now(datetime.timezone.utc)).days
+
+
+def fetch_headers(host: str) -> dict[str, str]:
+    req = urllib.request.Request(f"https://{host}/", headers={"User-Agent": "bissbert-recon-card"})
     try:
-        result["ip"] = socket.gethostbyname(host)
-    except Exception as e:
-        result["status"] = f"dns fail · {type(e).__name__}"
-        return result
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            return {k.lower(): v for k, v in resp.headers.items()}
+    except urllib.error.HTTPError as e:  # a 4xx/5xx still carries the headers we want
+        return {k.lower(): v for k, v in e.headers.items()}
 
-    if not HAS_REQUESTS:
-        result["status"] = "no requests library"
-        return result
 
+def hsts_days(value: str | None) -> int | None:
+    if not value:
+        return None
+    for part in value.split(";"):
+        k, _, v = part.strip().partition("=")
+        if k.lower() == "max-age" and v.strip().isdigit():
+            return int(v) // 86400
+    return 0
+
+
+def internetdb(ip: str) -> dict:
+    if requests is None:
+        return {}
+    resp = requests.get(f"https://internetdb.shodan.io/{ip}", timeout=10)
+    if resp.status_code == 404:
+        return {}
+    resp.raise_for_status()
+    return resp.json()
+
+
+def check(host: str) -> dict:
+    r = {"host": host, "error": None}
     try:
-        resp = requests.get(f"https://internetdb.shodan.io/{result['ip']}", timeout=10)
-        if resp.status_code == 404:
-            result["status"] = "no shodan record"
-            return result
-        resp.raise_for_status()
-        data = resp.json()
-        result["ports"] = data.get("ports", [])
-        result["vulns"] = data.get("vulns", [])
-        result["hostnames"] = data.get("hostnames", [])
-        result["tags"] = data.get("tags", [])
-        result["cpes"] = data.get("cpes", [])
+        ip = socket.gethostbyname(host)
+    except OSError as e:
+        r["error"] = f"dns fail · {type(e).__name__}"
+        return r
+    try:
+        r["tls"] = tls_days(host)
+        hdrs = fetch_headers(host)
     except Exception as e:
-        result["status"] = f"net fail · {type(e).__name__}"
-    return result
+        r["error"] = f"https fail · {type(e).__name__}"
+        return r
+
+    r["hsts"] = hsts_days(hdrs.get("strict-transport-security"))
+    csp = hdrs.get("content-security-policy", "")
+    present = [h for h, _ in HEADERS if h in hdrs or (h == "x-frame-options" and "frame-ancestors" in csp)]
+    r["headers"] = len(present)
+
+    server = hdrs.get("server", "").lower()
+    cdn = next((c for c in CDN_SERVERS if c in server), None)
+    try:
+        idb = internetdb(ip)
+    except Exception:
+        idb = {}
+    if cdn is None and "cdn" in (idb.get("tags") or []):
+        cdn = "cdn"
+    r["cdn"] = cdn
+    r["ports"] = len(idb.get("ports") or [])
+    r["vulns"] = len(idb.get("vulns") or [])
+    return r
 
 
-def host_summary(r: dict) -> tuple[str, str]:
-    """Returns (summary, severity) where severity is 'ok'/'warn'/'err'."""
-    if r["status"] != "ok":
-        return r["status"], "err"
+def summarise(r: dict) -> tuple[str, list[tuple[str, str]], str]:
+    """Returns (edge, [(check text, level)], row severity); levels are ok/warn/err."""
+    if r["error"]:
+        return "—", [(r["error"], "err")], "err"
 
-    ports = r["ports"]
-    vulns_n = len(r["vulns"])
-    tags = r["tags"] or []
+    tls = r["tls"]
+    parts = [(f"TLS {tls}d", "err" if tls < TLS_ERR_DAYS else "warn" if tls < TLS_WARN_DAYS else "ok")]
 
-    # If behind CDN AND only Cloudflare-public ports, abbreviate
-    behind_cdn = "cdn" in tags
-    only_cf_ports = ports and all(p in CLOUDFLARE_PORTS for p in ports)
-
-    parts = []
-    if behind_cdn:
-        if only_cf_ports:
-            parts.append(f"cdn-fronted · {len(ports)} public ports")
-        else:
-            parts.append(f"cdn · {len(ports)} ports")
+    hsts = r["hsts"]
+    if hsts is None:
+        parts.append(("no HSTS", "warn"))
     else:
-        if len(ports) == 0:
-            parts.append("no open ports")
-        elif len(ports) <= 4:
-            parts.append("ports " + ", ".join(str(p) for p in ports))
-        else:
-            head = ", ".join(str(p) for p in ports[:3])
-            parts.append(f"ports {head} +{len(ports)-3}")
+        parts.append((f"HSTS {hsts}d", "ok" if hsts >= HSTS_MIN_DAYS else "warn"))
 
-    parts.append(f"{vulns_n} vuln" + ("" if vulns_n == 1 else "s"))
+    parts.append((f"headers {r['headers']}/{len(HEADERS)}", "ok" if r["headers"] >= 3 else "warn"))
 
-    if r["hostnames"]:
-        parts.append(f"{len(r['hostnames'])} altname" + ("" if len(r["hostnames"]) == 1 else "s"))
+    if r["cdn"]:
+        edge = f"{r['cdn']} edge"
+    else:
+        edge = f"direct · {r['ports']} ports"
+        parts.append((f"{r['vulns']} vulns", "err" if r["vulns"] else "ok"))
 
-    severity = "ok"
-    if vulns_n > 0:
-        severity = "err"
-    elif not behind_cdn and not ports:
-        severity = "ok"
-    return " · ".join(parts), severity
+    levels = [lvl for _, lvl in parts]
+    severity = "err" if "err" in levels else "warn" if "warn" in levels else "ok"
+    return edge, parts, severity
 
 
-def hr_line(label_inner: str, width_chars: int = 64) -> str:
-    """Build an ASCII rule like '┌─ label ──────┐' that fills to width_chars."""
-    inner = f" {label_inner} "
-    fill = max(0, width_chars - len(inner) - 2)
-    return "┌─" + inner + "─" * fill + "┐"
+def build_svg(rows: list[dict], stamp: str, t: dict) -> str:
+    head_y, label_y, first_y, stride = 40, 72, 102, 34
+    foot_y = first_y + (len(rows) - 1) * stride + 38
+    height = foot_y + 22
+    alt = "Daily recon card: TLS, HSTS and security-header checks for " + ", ".join(r["host"] for r in rows)
 
-
-def hr_line_bot(label_inner: str, width_chars: int = 64) -> str:
-    inner = f" {label_inner} "
-    fill = max(0, width_chars - len(inner) - 2)
-    return "└─" + inner + "─" * fill + "┘"
-
-
-def build_svg(rows: list[dict], utc_date: str) -> str:
-    height = ROW_BASE_Y + max(0, len(rows) - 1) * ROW_STRIDE + FOOTER_GAP + 24
-    parts = []
-    parts.append(f'<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{height}" viewBox="0 0 {WIDTH} {height}" role="img" aria-label="Daily recon card">')
-    parts.append(f'  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{BG}"/><stop offset="1" stop-color="{GRID}"/></linearGradient></defs>')
-    parts.append(f'  <rect width="{WIDTH}" height="{height}" rx="10" fill="url(#bg)"/>')
-    parts.append(f'  <rect x="0.5" y="0.5" width="{WIDTH-1}" height="{height-1}" rx="10" fill="none" stroke="{DIM}" stroke-width="1"/>')
-    parts.append(f'  <style>text {{ font-family: {FONT}; }} .dim {{ fill: {DIM_FG}; }}</style>')
-
-    # Top rule
-    parts.append(f'  <text x="{PAD_X}" y="{TITLE_Y}" font-size="13" fill="{ACCENT}" font-weight="bold" xml:space="preserve">{esc(hr_line(f"DAILY RECON · {utc_date} UTC"))}</text>')
-
-    # Rows
-    col_host = PAD_X + 12
-    col_ip = col_host + 150
-    col_summary = col_ip + 160
+    out = [
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{height}" viewBox="0 0 {WIDTH} {height}" role="img" aria-label="{esc(alt)}">',
+        f'  <title>{esc(alt)}</title>',
+        f'  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{t["bg"]}"/><stop offset="1" stop-color="{t["bg2"]}"/></linearGradient></defs>',
+        f'  <rect width="{WIDTH}" height="{height}" rx="10" fill="url(#bg)"/>',
+        f'  <rect x="0.5" y="0.5" width="{WIDTH-1}" height="{height-1}" rx="10" fill="none" stroke="{t["rule"]}"/>',
+        f'  <style>text {{ font-family: {FONT}; }}</style>',
+        f'  <text x="{PAD_X}" y="{head_y}" font-size="13" font-weight="bold" fill="{t["ok"]}">$ recon --daily</text>',
+        f'  <text x="{WIDTH-PAD_X}" y="{head_y}" font-size="12" fill="{t["dim"]}" text-anchor="end">{esc(stamp)}</text>',
+        f'  <line x1="{PAD_X}" y1="{head_y+12}" x2="{WIDTH-PAD_X}" y2="{head_y+12}" stroke="{t["rule"]}"/>',
+    ]
+    for x, label in ((COL_HOST, "host"), (COL_EDGE, "served via"), (COL_CHECKS, "checks")):
+        out.append(f'  <text x="{x}" y="{label_y}" font-size="11" fill="{t["dim"]}">{label}</text>')
 
     for i, r in enumerate(rows):
-        y = ROW_BASE_Y + i * ROW_STRIDE
-        summary, severity = host_summary(r)
-        dot_color = {"ok": ACCENT, "warn": AMBER, "err": RED}[severity]
-
-        # Status dot (slightly bigger circle)
-        parts.append(f'  <circle cx="{PAD_X + 6}" cy="{y - 5}" r="4" fill="{dot_color}"/>')
-        # Host name
-        parts.append(f'  <text x="{col_host + 8}" y="{y}" font-size="13" fill="{FG}" font-weight="600">{esc(r["host"])}</text>')
-        # IP (dim mono)
-        ip_text = r["ip"] if r["ip"] else "—"
-        parts.append(f'  <text x="{col_ip}" y="{y}" font-size="12" class="dim">{esc(ip_text)}</text>')
-        # Summary
-        sum_color = RED if severity == "err" else (AMBER if severity == "warn" else FG)
-        parts.append(f'  <text x="{col_summary}" y="{y}" font-size="12" fill="{sum_color}">{esc(summary)}</text>')
-
-        # Faint row separator (except after last)
+        y = first_y + i * stride
+        edge, checks, sev = summarise(r)
+        out.append(f'  <circle cx="{PAD_X+6}" cy="{y-4}" r="4" fill="{t[sev]}"/>')
+        out.append(f'  <text x="{COL_HOST}" y="{y}" font-size="13" font-weight="600" fill="{t["fg"]}">{esc(fit(r["host"], COL_HOST, 13))}</text>')
+        out.append(f'  <text x="{COL_EDGE}" y="{y}" font-size="12" fill="{t["dim"]}">{esc(fit(edge, COL_EDGE, 12))}</text>')
+        room = int((WIDTH - PAD_X - COL_CHECKS) / (12 * CHAR_W))
+        spans, used = [], 0
+        for j, (text, lvl) in enumerate(checks):
+            sep = " · " if j else ""
+            if used + len(sep) + len(text) > room:
+                spans.append(f'<tspan fill="{t["dim"]}">{esc(sep)}…</tspan>')
+                break
+            used += len(sep) + len(text)
+            colour = t["fg"] if lvl == "ok" else t[lvl]
+            spans.append(f'<tspan fill="{t["dim"]}">{esc(sep)}</tspan><tspan fill="{colour}">{esc(text)}</tspan>')
+        out.append(f'  <text x="{COL_CHECKS}" y="{y}" font-size="12" xml:space="preserve">{"".join(spans)}</text>')
         if i < len(rows) - 1:
-            sep_y = y + 14
-            parts.append(f'  <line x1="{PAD_X}" y1="{sep_y}" x2="{WIDTH - PAD_X}" y2="{sep_y}" stroke="{DIM}" stroke-width="0.5" stroke-dasharray="2,3"/>')
+            out.append(f'  <line x1="{PAD_X}" y1="{y+14}" x2="{WIDTH-PAD_X}" y2="{y+14}" stroke="{t["rule"]}" stroke-width="0.5" stroke-dasharray="2,3"/>')
 
-    # Bottom rule
-    foot_y = ROW_BASE_Y + (len(rows) - 1) * ROW_STRIDE + FOOTER_GAP + 4
-    parts.append(f'  <text x="{PAD_X}" y="{foot_y}" font-size="11" class="dim" xml:space="preserve">{esc(hr_line_bot("source: internetdb.shodan.io · auto-updated daily"))}</text>')
+    foot = f"headers: CSP · nosniff · frame · referrer · permissions  ·  amber = HSTS<{HSTS_MIN_DAYS}d or TLS<{TLS_WARN_DAYS}d"
+    out.append(f'  <text x="{PAD_X}" y="{foot_y}" font-size="10.5" fill="{t["dim"]}">{esc(fit(foot, PAD_X, 10.5))}</text>')
+    out.append("</svg>")
+    return "\n".join(out)
 
-    parts.append("</svg>")
-    return "\n".join(parts)
+
+def error_svg(msg: str, stamp: str, t: dict) -> str:
+    return (
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="96" viewBox="0 0 {WIDTH} 96" role="img" aria-label="Recon card error">'
+        f'<rect width="{WIDTH}" height="96" rx="10" fill="{t["bg"]}" stroke="{t["rule"]}"/>'
+        f'<text x="{PAD_X}" y="44" font-family="monospace" font-size="13" fill="{t["err"]}">{esc(fit("recon error: " + msg, PAD_X, 13))}</text>'
+        f'<text x="{PAD_X}" y="68" font-family="monospace" font-size="11" fill="{t["dim"]}">{esc(stamp)}</text>'
+        "</svg>"
+    )
 
 
 def main() -> None:
-    utc_date = datetime.datetime.utcnow().strftime("%Y-%m-%d")
-    rows = [fetch_host(h) for h in HOSTS]
-    svg = build_svg(rows, utc_date)
+    stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d UTC")
+    assets = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets")
+    os.makedirs(assets, exist_ok=True)
+    try:
+        rows = [check(h) for h in HOSTS]
+        render = lambda t: build_svg(rows, stamp, t)
+    except Exception as exc:
+        render = lambda t: error_svg(str(exc), stamp, t)
+    for suffix, theme in THEMES.items():
+        path = os.path.join(assets, f"recon{suffix}.svg")
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(render(theme))
+        print(f"Written: {path}")
 
-    out_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets", "recon.svg")
-    os.makedirs(os.path.dirname(out_path), exist_ok=True)
-    with open(out_path, "w", encoding="utf-8") as f:
-        f.write(svg)
-    print(f"Written: {out_path} ({len(svg)} bytes)")
 
-
-try:
+if __name__ == "__main__":
     main()
-except Exception as exc:
-    utc_date = datetime.datetime.utcnow().strftime("%Y-%m-%d")
-    error_svg = (
-        '<svg xmlns="http://www.w3.org/2000/svg" width="720" height="96" viewBox="0 0 720 96">'
-        f'<rect width="720" height="96" rx="10" fill="{BG}"/>'
-        f'<text x="24" y="44" font-family="monospace" font-size="13" fill="{RED}">recon error: {esc(str(exc)[:80])}</text>'
-        f'<text x="24" y="68" font-family="monospace" font-size="11" fill="{DIM_FG}">{utc_date} UTC</text>'
-        '</svg>'
-    )
-    out_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets", "recon.svg")
-    os.makedirs(os.path.dirname(out_path), exist_ok=True)
-    with open(out_path, "w", encoding="utf-8") as f:
-        f.write(error_svg)
-    print(f"Error SVG written: {out_path} — cause: {exc}")
