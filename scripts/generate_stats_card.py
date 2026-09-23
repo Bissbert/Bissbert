@@ -3,8 +3,7 @@
 
 Writes assets/stats.svg (dark) and assets/stats-light.svg (light): four headline
 numbers and the language mix of public, non-fork repositories. Contribution
-counts are deliberately left out — the profile's own scheduled commits would
-inflate them.
+counts are left out because this repo's scheduled commits would inflate them.
 """
 
 from __future__ import annotations
