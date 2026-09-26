@@ -5,7 +5,7 @@
   <rect x="0.5" y="0.5" width="719" height="229" rx="10" fill="none" stroke="#d1d9e0"/>
   <style>text { font-family: 'JetBrains Mono', 'SF Mono', 'Cascadia Mono', Menlo, monospace; }</style>
   <text x="24" y="40" font-size="13" font-weight="bold" fill="#1a7f37">$ recon --daily</text>
-  <text x="696" y="40" font-size="12" fill="#59636e" text-anchor="end">2026-09-25 UTC</text>
+  <text x="696" y="40" font-size="12" fill="#59636e" text-anchor="end">2026-09-26 UTC</text>
   <line x1="24" y1="52" x2="696" y2="52" stroke="#d1d9e0"/>
   <text x="44" y="72" font-size="11" fill="#59636e">host</text>
   <text x="196" y="72" font-size="11" fill="#59636e">served via</text>
@@ -13,16 +13,16 @@
   <circle cx="30" cy="98" r="4" fill="#9a6700"/>
   <text x="44" y="102" font-size="13" font-weight="600" fill="#1f2328">bissbert.ch</text>
   <text x="196" y="102" font-size="12" fill="#59636e">cloudflare edge</text>
-  <text x="330" y="102" font-size="12" xml:space="preserve"><tspan fill="#59636e"></tspan><tspan fill="#1f2328">TLS 50d</tspan><tspan fill="#59636e"> · </tspan><tspan fill="#9a6700">HSTS 30d</tspan><tspan fill="#59636e"> · </tspan><tspan fill="#1f2328">headers 3/5</tspan></text>
+  <text x="330" y="102" font-size="12" xml:space="preserve"><tspan fill="#59636e"></tspan><tspan fill="#1f2328">TLS 49d</tspan><tspan fill="#59636e"> · </tspan><tspan fill="#9a6700">HSTS 30d</tspan><tspan fill="#59636e"> · </tspan><tspan fill="#1f2328">headers 3/5</tspan></text>
   <line x1="24" y1="116" x2="696" y2="116" stroke="#d1d9e0" stroke-width="0.5" stroke-dasharray="2,3"/>
   <circle cx="30" cy="132" r="4" fill="#9a6700"/>
   <text x="44" y="136" font-size="13" font-weight="600" fill="#1f2328">bisshub.ch</text>
   <text x="196" y="136" font-size="12" fill="#59636e">cloudflare edge</text>
-  <text x="330" y="136" font-size="12" xml:space="preserve"><tspan fill="#59636e"></tspan><tspan fill="#1f2328">TLS 60d</tspan><tspan fill="#59636e"> · </tspan><tspan fill="#9a6700">HSTS 30d</tspan><tspan fill="#59636e"> · </tspan><tspan fill="#1f2328">headers 3/5</tspan></text>
+  <text x="330" y="136" font-size="12" xml:space="preserve"><tspan fill="#59636e"></tspan><tspan fill="#1f2328">TLS 59d</tspan><tspan fill="#59636e"> · </tspan><tspan fill="#9a6700">HSTS 30d</tspan><tspan fill="#59636e"> · </tspan><tspan fill="#1f2328">headers 3/5</tspan></text>
   <line x1="24" y1="150" x2="696" y2="150" stroke="#d1d9e0" stroke-width="0.5" stroke-dasharray="2,3"/>
   <circle cx="30" cy="166" r="4" fill="#1a7f37"/>
   <text x="44" y="170" font-size="13" font-weight="600" fill="#1f2328">gemmology.dev</text>
   <text x="196" y="170" font-size="12" fill="#59636e">cloudflare edge</text>
-  <text x="330" y="170" font-size="12" xml:space="preserve"><tspan fill="#59636e"></tspan><tspan fill="#1f2328">TLS 77d</tspan><tspan fill="#59636e"> · </tspan><tspan fill="#1f2328">HSTS 365d</tspan><tspan fill="#59636e"> · </tspan><tspan fill="#1f2328">headers 5/5</tspan></text>
+  <text x="330" y="170" font-size="12" xml:space="preserve"><tspan fill="#59636e"></tspan><tspan fill="#1f2328">TLS 76d</tspan><tspan fill="#59636e"> · </tspan><tspan fill="#1f2328">HSTS 365d</tspan><tspan fill="#59636e"> · </tspan><tspan fill="#1f2328">headers 5/5</tspan></text>
   <text x="24" y="208" font-size="10.5" fill="#59636e">headers: CSP · nosniff · frame · referrer · permissions  ·  amber = HSTS&lt;180d or TLS&lt;21d</text>
 </svg>
