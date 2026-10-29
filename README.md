@@ -24,6 +24,9 @@ I also run [MOOR security](https://moor-security.ch), a security consultancy in 
 - **[topdesk-cli](https://github.com/Bissbert/topdesk-cli)**: shell client for scripting Topdesk ITSM.
 - **[toolbox.sh](https://github.com/Bissbert/toolbox.sh)**: POSIX shell framework for building Git-style CLIs, scaffolded from JSON.
 
+**Claude Code plugins**
+- **[biss-brain](https://github.com/Bissbert/biss-brain)**: long-term memory for Claude Code. Distills each session into short notes, stores them locally with hybrid search, and brings the relevant ones back in later sessions.
+
 **Outside work**
 - **[minecraft-litematica](https://github.com/Bissbert/minecraft-litematica)**: generates Litematica schematics from signed distance functions, i.e. 3D shapes combined with boolean operations.
 - **[obsidianMathsExecutor](https://github.com/Bissbert/obsidianMathsExecutor)**: Obsidian plugin that evaluates LaTeX maths in your notes.
